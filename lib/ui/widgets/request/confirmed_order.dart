@@ -1,10 +1,12 @@
-// ignore_for_file: file_names, deprecated_member_use, use_key_in_widget_constructors
+// ignore_for_file: file_names, deprecated_member_use, use_key_in_widget_constructors, camel_case_types, library_private_types_in_public_api, non_constant_identifier_names
 
 //librerias de flutter
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 //Servicios
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../../../app/data/data_remote/data_ordersaccepted.dart';
 import '../../../app/data/helpers/http.dart';
@@ -28,11 +30,10 @@ class _confirmed_Order extends State<ConfirmedOrder>{
 
   Future<List<Data_OrdersAccepted>?> cargar_datos_accepted() async{
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        // ignore: await_only_futures
-        var id = await prefs.getString('id');
+        const select = 'id_order,date_order,address_order,phone_order,notes_order,displayname_customer,id_customer';
+        var id = prefs.getString('id');
         final http = Http(baseUrl: urlGlobal().url);
-
-        final result = await http.request('/orders?linkTo=status_order,id_userrepartidor_order&equalTo=1,${id!}&select=*',
+        final result = await http.request('/relations?rel=orders,customers&type=order,customer&select=$select&linkTo=status_order,id_user_order&equalTo=1,${id!}',
         method: HttpMethod.get,
         headers: {
           "Authorization": keyGlobal().key,
@@ -87,22 +88,37 @@ class _confirmed_Order extends State<ConfirmedOrder>{
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        const Text('',style: TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
-                        Text('N° de pedido: ${data_accepted[index].id_order}', style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
+                        const SizedBox(height: 15,),
+                        Text('N° de pedido: #${data_accepted[index].id_order}', style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
                         const SizedBox(height: 3,),
                         ],),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        Text('Cliente: ${data_accepted[index].namepickup_order}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
+                        Text('Cliente: ${data_accepted[index].displayname_customer}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
                         const SizedBox(height: 3,),
                         Text('Dirección: ${data_accepted[index].address_order}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
                       ] ,),
                       leading: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text('',style: TextStyle(fontSize: 5)),
-                          Image.network('${urlImgGlobal().urlImg}/users/${data_accepted[index].id_user_order}/${data_accepted[index].id_user_order}.png',height: 45,width: 45,),
+                          const SizedBox(height: 5,),
+                          ExtendedImage.network(
+                            '${urlImgGlobal().urlImg}/users/${data_accepted[index].id_customer}/${data_accepted[index].id_customer}.png',
+                            fit: BoxFit.contain,
+                            mode: ExtendedImageMode.gesture,
+                            initGestureConfigHandler: (ExtendedImageState state) {
+                              return GestureConfig(
+                                inPageView: true,
+                                initialScale: 1.0,
+                                maxScale: 5.0,
+                                animationMaxScale: 6.0,
+                                initialAlignment: InitialAlignment.center,
+                              );
+                            },
+                            width: 45,
+                            height: 45,
+                          ),
                           ],)
                     ),
                     Row(
@@ -112,7 +128,7 @@ class _confirmed_Order extends State<ConfirmedOrder>{
                             onPressed:(){
                               String id = data_accepted[index].id_order.toString();
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                                return ConfirmedOrderDetail(id,data_accepted[index].address_order,data_accepted[index].phone_order,data_accepted[index].date_order,data_accepted[index].namepickup_order);
+                                return ConfirmedOrderDetail(id,data_accepted[index].address_order,data_accepted[index].phone_order,data_accepted[index].date_order,data_accepted[index].displayname_customer,data_accepted[index].notes_order);
                               }
                               ));
                             },),
@@ -147,8 +163,7 @@ class _confirmed_Order extends State<ConfirmedOrder>{
                 ],
                 ),
               ),
-              ),
+      ),
     );
   }
-
 }

@@ -1,6 +1,7 @@
-// ignore_for_file: file_names, deprecated_member_use
+// ignore_for_file: file_names, deprecated_member_use, non_constant_identifier_names, library_private_types_in_public_api, use_key_in_widget_constructors, camel_case_types
 
 //librerias de flutter
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 //Servicios
@@ -28,11 +29,12 @@ class _order_delivered extends State<orderDelivered>{
 
   Future<List<Data_OrdersAtDestination>?> cargar_datos_at_destination() async{
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        // ignore: await_only_futures
-        var id = await prefs.getString('id');
+        final DateTime now = DateTime.now();
+        var date = now.toString().substring(0, 10);
+        var id = prefs.getString('id');
+        const select = 'id_order,date_order,address_order,phone_order,notes_order,displayname_customer,id_customer';
         final http = Http(baseUrl: urlGlobal().url);
-
-        final result = await http.request('/orders?linkTo=status_order,id_userrepartidor_order&equalTo=3,${id!}&select=*',
+        final result = await http.request('/relations?rel=orders,customers&type=order,customer&select=$select&linkTo=status_order,id_user_order,date_updated_order&equalTo=3,${id!},$date',
         method: HttpMethod.get,
         headers: {
           "Authorization": keyGlobal().key,
@@ -87,22 +89,37 @@ class _order_delivered extends State<orderDelivered>{
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        const Text('',style: TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
-                        Text('N° de pedido: ${data_at_destination[index].id_order}', style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
+                        const SizedBox(height: 15,),
+                        Text('N° de pedido: #${data_at_destination[index].id_order}', style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
                         const SizedBox(height: 3,),
                         ],),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        Text('Cliente: ${data_at_destination[index].namepickup_order}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
+                        Text('Cliente: ${data_at_destination[index].displayname_customer}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
                         const SizedBox(height: 3,),
                         Text('Dirección: ${data_at_destination[index].address_order}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w700)),
                       ] ,),
                       leading: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text('',style: TextStyle(fontSize: 5)),
-                          Image.network('${urlImgGlobal().urlImg}/users/${data_at_destination[index].id_user_order}/${data_at_destination[index].id_user_order}.png',height: 45,width: 45,),
+                          const SizedBox(height: 5,),
+                          ExtendedImage.network(
+                            '${urlImgGlobal().urlImg}/users/${data_at_destination[index].id_customer}/${data_at_destination[index].id_customer}.png',
+                            fit: BoxFit.contain,
+                            mode: ExtendedImageMode.gesture,
+                            initGestureConfigHandler: (ExtendedImageState state) {
+                              return GestureConfig(
+                                inPageView: true,
+                                initialScale: 1.0,
+                                maxScale: 5.0,
+                                animationMaxScale: 6.0,
+                                initialAlignment: InitialAlignment.center,
+                              );
+                            },
+                            width: 45,
+                            height: 45,
+                          ),
                           ],)
                     ),
                     Row(
@@ -112,7 +129,7 @@ class _order_delivered extends State<orderDelivered>{
                             onPressed:(){
                               String id = data_at_destination[index].id_order.toString();
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                                return OrderDeliveredDetail(id,data_at_destination[index].address_order,data_at_destination[index].phone_order,data_at_destination[index].date_order,data_at_destination[index].namepickup_order);
+                                return OrderDeliveredDetail(id,data_at_destination[index].address_order,data_at_destination[index].phone_order,data_at_destination[index].date_order,data_at_destination[index].displayname_customer,data_at_destination[index].notes_order);
                               }
                               ));
                             },),

@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
+import '../../widgets/notification/order_notification.dart';
+
 // ignore: use_key_in_widget_constructors
 class NotificationPage extends StatefulWidget {
 
@@ -32,37 +34,7 @@ class _NotificationState extends State<NotificationPage>{
           ),
         ),
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Center(
-      child: count == 1 ?  Container(
-        alignment: Alignment.center,
-        child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.notifications_off_sharp, color: Theme.of(context).primaryColor, size: 75,),
-          const SizedBox(height: 15),
-          Container(
-            alignment: Alignment.center,
-            child:
-              const Text('No hay notificaciones',
-                style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Antipasto',
-                      color: Colors.grey,
-                    ),
-                    ),
-          ),
-        ],
-        ),
-      ),
-      )
-      : Container(
-        alignment: Alignment.center,
-        child: const Icon(Icons.notifications_off_sharp, color: Colors.black, size: 45,)
-      )
-
-      ),
+      body:OrderNotification(),
     );
   }
 

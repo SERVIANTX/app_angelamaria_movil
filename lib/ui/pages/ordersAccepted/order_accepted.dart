@@ -44,7 +44,7 @@ class _OrderAcceptedState extends State<OrderAcceptedPage>{
             padding: const EdgeInsets.all(16.0),
             backgroundColor: Theme.of(context).cardColor,
             foregroundColor:  Theme.of(context).primaryColor,
-            elevation: 24,
+            elevation: 8,
             borderColor:  Theme.of(context).primaryColor,
             borderWidth: 2,
             innerVerticalPadding: 16,

@@ -31,10 +31,12 @@ const MaterialColor textSwatch = MaterialColor(_textColor, <int, Color>{
 });
 
 final ThemeData lightTheme = ThemeData(
+  highlightColor: Colors.white,
   primarySwatch: primarySwatch,
   brightness: Brightness.light,
+  shadowColor: const Color.fromARGB(255, 158, 165, 173),
   scaffoldBackgroundColor: textSwatch.shade100,
-  backgroundColor: textSwatch.shade100,
+  backgroundColor: const Color.fromRGBO(248, 248, 250, 1),
   cardColor: Colors.white,
   bottomAppBarColor: Colors.white,
   dividerColor: const Color(0x1C000000),
@@ -116,7 +118,9 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = lightTheme.copyWith(
+  highlightColor: Colors.black,
   brightness: Brightness.dark,
+  shadowColor: const Color.fromARGB(255, 158, 165, 173),
   scaffoldBackgroundColor: const Color(0xFF18181B),
   backgroundColor: const Color(0xFF18181B),
   cardColor: const Color(0xFF262626),

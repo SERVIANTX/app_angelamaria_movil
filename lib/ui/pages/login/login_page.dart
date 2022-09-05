@@ -82,16 +82,16 @@ class _LoginPageState extends State<LoginPage>{
                       children: [
                         FadeInDown(
                           child:Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 boxShadow:  [
                                   BoxShadow(
-                                      color: Color.fromARGB(255, 158, 165, 173),
-                                      blurRadius: 10,
-                                      offset: Offset(1, 1)
+                                      color: Theme.of(context).shadowColor,
+                                    blurRadius: 4,
+                                      offset: const Offset(1, 1)
                                   ),
                                 ],
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(50))
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(15))
                                     ),
                               child: TextField(
                                   controller: email,
@@ -111,11 +111,11 @@ class _LoginPageState extends State<LoginPage>{
                                   prefixIcon: Icon(Icons.mail_outline, color: Theme.of(context).primaryColor),
                                   border: OutlineInputBorder(
                                     borderSide: const BorderSide(color: Color.fromARGB(255, 158, 165, 173)),
-                                    borderRadius: BorderRadius.circular(50)
+                                    borderRadius: BorderRadius.circular(15)
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Theme.of(context).cardColor),
-                                    borderRadius: BorderRadius.circular(50),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                   ),
                                 ),
@@ -124,16 +124,16 @@ class _LoginPageState extends State<LoginPage>{
                         const SizedBox(height: 25),
                         FadeInDown(
                           child:Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 boxShadow:  [
                                   BoxShadow(
-                                    color: Color.fromARGB(255, 158, 165, 173),
-                                    blurRadius: 10,
-                                    offset: Offset(1, 1)
+                                    color: Theme.of(context).shadowColor,
+                                    blurRadius: 4,
+                                    offset: const Offset(1, 1)
                                   ),
                                 ],
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(50)
+                                borderRadius:const BorderRadius.all(
+                                    Radius.circular(15)
                                     )
                               ),
                             child: TextField(
@@ -164,11 +164,11 @@ class _LoginPageState extends State<LoginPage>{
                               prefixIcon: Icon(Icons.lock, color: Theme.of(context).primaryColor),
                               border: OutlineInputBorder(
                                 borderSide: const BorderSide(color: Color.fromARGB(255, 158, 165, 173)),
-                                borderRadius: BorderRadius.circular(50)
+                                borderRadius: BorderRadius.circular(15)
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Theme.of(context).cardColor),
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             )
                             ),
@@ -214,11 +214,11 @@ class _LoginPageState extends State<LoginPage>{
               child:Container(
               margin: const EdgeInsets.all(25),
               decoration: BoxDecoration(
-                boxShadow:  const [
+                boxShadow: [
                   BoxShadow(
-                      color: Color.fromARGB(255, 158, 165, 173),
-                      blurRadius: 10,
-                      offset: Offset(1, 1)),
+                      color: Theme.of(context).shadowColor,
+                      blurRadius: 4,
+                      offset: const Offset(1, 1)),
                 ],
                 color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.all(Radius.circular(50))),

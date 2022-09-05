@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 //Servicios
 import 'package:ionicons/ionicons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
 
 //Widgets
@@ -14,8 +13,6 @@ import '../../widgets/theme_card/theme_card.dart';
 
 //Variables Globales
 import '../../../config/global_variables.dart';
-
-final Uri _url = Uri.parse('https://www.youtube.com/');
 
 class ProfilePage extends StatefulWidget {
 
@@ -123,40 +120,8 @@ class _ProfileState extends State<ProfilePage>{
             ),
             const SizedBox(height: 15),
             FadeInDown(
-            child:Card(
-                elevation: 2,
-                color:  Theme.of(context).cardColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: SwitchListTile(
-                  value: isSwitchedNotification,
-                  onChanged: (value) {
-                    setState(() {
-                      isSwitchedNotification = value;
-                    });
-                  },
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  title: Row(
-                    children: <Widget>[
-                      Icon(Ionicons.notifications,
-                          color: Theme.of(context).primaryColor),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Notificaciones',
-                        style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .apply(fontWeightDelta: 2),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            FadeInDown(
               child:Card(
+                surfaceTintColor: Theme.of(context).shadowColor,
                 elevation: 2,
                 color:  Theme.of(context).cardColor,
                 shape: const RoundedRectangleBorder(
@@ -230,37 +195,6 @@ class _ProfileState extends State<ProfilePage>{
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:<Widget>[
-                      Icon(Ionicons.help, color: Theme.of(context).primaryColor),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Ayuda',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1!
-                            .apply(fontWeightDelta: 2),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    _launchUrl();
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            FadeInDown(
-              child:Card(
-                elevation: 2,
-                color:  Theme.of(context).cardColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: FlatButton (
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                  height: 54.0,
-                  child:Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children:<Widget>[
                       Icon(Icons.logout, color: Theme.of(context).primaryColor),
                       const SizedBox(width: 16),
                       Text(
@@ -285,11 +219,5 @@ class _ProfileState extends State<ProfilePage>{
       ),
     );
   }
-
-}
-
-void _launchUrl() async {
-
-  if (!await launchUrl(_url)) throw 'No se pudo inciar $_url';
 
 }

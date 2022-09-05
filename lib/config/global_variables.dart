@@ -5,9 +5,9 @@ class keyGlobal {
 }
 
 class urlGlobal {
-  String url = "https://angelamaria.alwaysdata.net";
+  String url = "https://api.e-angelamaria.me";
 }
 
 class urlImgGlobal {
-  String urlImg = "https://e-angelamaria.me/views/img";
+  String urlImg = "https://server.e-angelamaria.me/views/img";
 }

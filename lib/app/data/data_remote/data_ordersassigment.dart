@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types
 
-
-class Data_OrdersPickedUp{
+class Data_OrdersAssigment{
 
   late int id_order;
   late int id_user_order;
@@ -10,9 +9,9 @@ class Data_OrdersPickedUp{
   late String date_order;
   late String namepickup_order;
 
-  Data_OrdersPickedUp(this.id_order,this.id_user_order,this.address_order,this.phone_order,this.date_order,this.namepickup_order);
+  Data_OrdersAssigment(this.id_order,this.id_user_order,this.address_order,this.phone_order,this.date_order,this.namepickup_order);
 
-  Data_OrdersPickedUp.fromJson(Map<String, dynamic> json){
+  Data_OrdersAssigment.fromJson(Map<String, dynamic> json){
     id_order = int.parse(json['id_order']);
     id_user_order = int.parse(json['id_user_order']);
     address_order = json['address_order'];

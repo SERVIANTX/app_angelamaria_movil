@@ -1,7 +1,9 @@
-// ignore_for_file: file_names, deprecated_member_use, must_be_immutable, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: file_names, deprecated_member_use, must_be_immutable, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, non_constant_identifier_names
 
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../app/data/data_required/data_required.dart';
 
@@ -19,7 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:emojis/emojis.dart';
 import '../../../../../Services/String/string_extension.dart';
 import '../../../../../Services/notifications/notificationservice.dart';
 // import 'package:phone_caller/phone_caller.dart';
@@ -36,8 +37,9 @@ class ConfirmedOrderDetail extends StatefulWidget {
     String phone;
     String date;
     String namepickup;
+    String notes_order;
 
-    ConfirmedOrderDetail(this.id,this.address,this.phone,this.date,this.namepickup);
+    ConfirmedOrderDetail(this.id,this.address,this.phone,this.date,this.namepickup,this.notes_order);
 
     @override
 
@@ -54,10 +56,10 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
 
   List<Data_OrdersDetail> data = <Data_OrdersDetail>[];
 
-  // ignore: body_might_complete_normally_nullable
   Future<List<Data_OrdersDetail>?> cargardatos() async{
-    final http = Http(baseUrl: urlGlobal().url);
-        final result = await http.request('/relations?rel=ordersdetails,products&type=orderdetail,product&select=*&linkTo=id_order&equalTo=${widget.id}',
+        const select = 'name_product,quantity_orderdetail,picture_product,url_category';
+        final http = Http(baseUrl: urlGlobal().url);
+        final result = await http.request('/relations?rel=ordersdetails,products,categories&type=orderdetail,product,category&select=$select&linkTo=id_order&equalTo=${widget.id}',
         method: HttpMethod.get,
         headers: {
           "Authorization": variablesGlobales().key,
@@ -70,7 +72,7 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
           var datos2 = datos[i];
           registros.add(Data_OrdersDetail.fromJson(datos2));
         }
-       return registros;
+      return registros;
   }
   @override
   void initState() {
@@ -100,7 +102,7 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
           title:Row(
             children: [
               Text(
-                'Detalles del pedido N° ${widget.id}',
+                'Detalles del pedido N° #${widget.id}',
                 style: Theme.of(context)
                     .textTheme
                     .headline2!
@@ -132,11 +134,11 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
             children: <Widget>[
               ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
-                title: Text('Pedido N° ${widget.id}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).canvasColor)),
+                title: Text('Pedido N° #${widget.id}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).canvasColor)),
                 subtitle:  Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        const SizedBox(height: 3,),
+                        const SizedBox(height: 13,),
                         RichText(text: TextSpan(
                           children:<TextSpan>[ TextSpan(text: 'Fecha: ' ,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor,fontFamily: 'Antipasto')),
                           TextSpan(text: outputDate ,style: TextStyle(fontSize: 17,color: Theme.of(context).canvasColor),
@@ -163,7 +165,19 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
                         const SizedBox(height: 3),
                         RichText(text: TextSpan(
                           children:<TextSpan>[ TextSpan(text: 'Dirección: ' ,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor,fontFamily: 'Antipasto')),
-                          TextSpan(text: widget.address ,style: TextStyle(fontSize: 17,color: Theme.of(context).canvasColor)),
+                          TextSpan(text: '${widget.address} 📍' ,style: TextStyle(fontSize: 17,color: Theme.of(context).primaryColor),
+                            recognizer: TapGestureRecognizer()..onTap = () async{
+                              var adrress = widget.address.replaceAll(" ", "+").trim();
+                              final Uri url = Uri.parse("geo:0,0?q=$adrress");
+                                if (!await launchUrl(url)) throw 'No se pudo inciar $url';
+                            }
+                          ),
+                          ],
+                        )),
+                        const SizedBox(height: 13),
+                        RichText(text: TextSpan(
+                          children:<TextSpan>[ TextSpan(text: 'Nota: ' ,style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor,fontFamily: 'Antipasto')),
+                          TextSpan(text: widget.notes_order ,style: TextStyle(fontSize: 17,color: Theme.of(context).canvasColor)),
                           ],
                         )),
                         const SizedBox(height: 18,),
@@ -177,6 +191,7 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
               children: [
                 const SizedBox(height: 15),
                 Text('Productos:',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor,fontFamily: 'Antipasto')),
+                const SizedBox(height: 10),
               ],
             ),
           Expanded(
@@ -194,6 +209,7 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
                   elevation: 10,
                   child: Column(
                   children: <Widget>[
+                    const SizedBox(height: 10,),
                     ListTile(
                         trailing: Column(
                           children: [
@@ -231,10 +247,26 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
                       leading: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text('',style: TextStyle(fontSize: 5)),
-                          Image.network("${urlImgGlobal().urlImg}/products/${data[index].image_product}",height: 45,width: 45,),
+                          const SizedBox(width: 5,),
+                          ExtendedImage.network(
+                            '${urlImgGlobal().urlImg}/products/${data[index].url_category}/${data[index].image_product}',
+                            fit: BoxFit.contain,
+                            mode: ExtendedImageMode.gesture,
+                            initGestureConfigHandler: (ExtendedImageState state) {
+                              return GestureConfig(
+                                inPageView: true,
+                                initialScale: 1.0,
+                                maxScale: 5.0,
+                                animationMaxScale: 6.0,
+                                initialAlignment: InitialAlignment.center,
+                              );
+                            },
+                            width: 45,
+                            height: 45,
+                          ),
                           ],)
                     ),
+                    const SizedBox(height: 10,),
                   ],
                 ),
                 ),
@@ -292,7 +324,8 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     var token = prefs.getString('token');
                     var id = prefs.getString('id');
-
+                    final DateTime now = DateTime.now();
+                    var date = now.toString().substring(0, 10);
                     final http = Http(baseUrl: urlGlobal().url);
 
                     final result = await http.request('/orders?id=${widget.id}&nameId=id_order&token=${token!}&table=users&suffix=user',
@@ -302,7 +335,8 @@ class _ConfirmedOrderDetail extends State<ConfirmedOrderDetail>{
                     },
                     body: {
                       "status_order": '2',
-                      "id_userrepartidor_order": id,
+                      "id_user_order": id,
+                      "date_updated_order": date,
                     },
                     );
                     if(result.statusCode == 200){

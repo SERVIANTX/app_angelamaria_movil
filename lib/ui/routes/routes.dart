@@ -110,7 +110,7 @@ class _RoutesState extends State<Routes> {
         },
       ),
       bottomNavigationBar: BottomBar(
-        backgroundColor:  Theme.of(context).cardColor,
+        backgroundColor:  Theme.of(context).dividerColor,
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
         selectedIndex: _currentPage,
         onTap: (int index) {
@@ -119,7 +119,7 @@ class _RoutesState extends State<Routes> {
         },
         items: <BottomBarItem>[
           BottomBarItem(
-            inactiveColor: Theme.of(context).primaryColor,
+            inactiveColor: Theme.of(context).primaryColor.withOpacity(1),
             icon: const Icon(Icons.home),
             title: const Text('Inicio'),
             activeColor: Theme.of(context).primaryColor,

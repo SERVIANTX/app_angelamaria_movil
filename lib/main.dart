@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
+import 'Services/notifications/push_notifications_service.dart';
 import 'config/theme.dart';
 import 'states/theme_mode_state.dart';
 
@@ -26,6 +27,7 @@ import 'ui/routes/routes.dart';
 void main() async {
   /// Initialize packages
   WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   final Directory tmpDir = await getTemporaryDirectory();
   await Hive.initFlutter(tmpDir.toString());
   await Hive.openBox('prefs');

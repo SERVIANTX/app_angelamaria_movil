@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "540234145584",
+    "project_id": "app-angelamaria",
+    "storage_bucket": "app-angelamaria.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540234145584:android:2909351aa956b6380532f5",
+        "android_client_info": {
+          "package_name": "com.example.app_angelamaria_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540234145584-jot0q4ur3jlpeig47cc5lueh7lf6cack.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_angelamaria_movil",
+            "certificate_hash": "6f35a1591f11a1eb49a52f14708e337468b6a82c"
+          }
+        },
+        {
+          "client_id": "540234145584-3627eh1rj3j30vj4a7mljil5htuqp5ia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF4yGOG7gnJNmYibgeRzMwzHg7XUkekeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540234145584-3627eh1rj3j30vj4a7mljil5htuqp5ia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
